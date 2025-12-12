@@ -17,12 +17,11 @@ const list = document.getElementById("ebook-list");
 
 ebooks.forEach(e => {
   const card = document.createElement("div");
-  card.style.textAlign = "center";
-  card.style.marginBottom = "20px";
+  card.className = "ebook-card";
 
   card.innerHTML = `
-    <img src="${e.cover}" style="width:220px;border-radius:14px">
-    <p>${e.title}</p>
+    <img src="${e.cover}" alt="${e.title}">
+    <h3>${e.title}</h3>
   `;
 
   list.appendChild(card);
