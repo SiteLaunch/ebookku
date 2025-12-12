@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EbookKu — Koleksi Ebook Premium</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>EbookKu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* fallback CSS kalau style.css tak load */
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#0f172a;
+      color:#fff;
+      padding:20px;
+    }
+    h1{
+      text-align:center;
+      margin-bottom:30px;
+    }
+  </style>
 </head>
 <body>
 
-<header class="header">
-  <img src="images/logo.png" class="logo" alt="EbookKu Logo">
-</header>
+  <h1>📚 EbookKu</h1>
 
-<main>
-  <section class="hero">
-    <h1><span>EbookKu</span></h1>
-    <p class="tagline">Beli sekali — baca bila-bila. Rangkaian ebook pilihan, terus di telefon anda.</p>
-  </section>
+  <!-- TEMPAT AUTO-GENERATE EBOOK -->
+  <section id="ebook-list"></section>
 
-  <section class="ebook-list" id="ebookList">
-    <!-- AUTO GENERATED -->
-  </section>
-</main>
+  <!-- DEBUG (buang lepas siap) -->
+  <noscript>
+    <p style="color:red;text-align:center;">
+      JavaScript tidak aktif
+    </p>
+  </noscript>
 
-<footer>
-  <p>© 2025 EbookKu. Semua Hak Cipta Terpelihara.</p>
-</footer>
-<!-- force github pages rebuild -->
+  <!-- JS WAJIB DI BAWAH -->
+  <script src="script.js"></script>
 
-<script src="script.js"></script>
 </body>
 </html>
-
