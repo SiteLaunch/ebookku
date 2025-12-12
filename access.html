@@ -27,48 +27,24 @@ body{
   background:var(--card);
   max-width:420px;
   width:92%;
-  padding:28px 22px 34px;
+  padding:30px 22px 36px;
   border-radius:18px;
   text-align:center;
 }
 h1{
   color:var(--accent);
   font-size:24px;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 p{
   color:var(--muted);
   font-size:15px;
   margin:12px 0;
 }
-input{
-  width:100%;
-  padding:14px;
-  margin-top:16px;
-  border-radius:12px;
-  border:none;
-  font-size:16px;
-  outline:none;
-}
-button{
-  margin-top:18px;
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  background:var(--accent);
-  color:#020617;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-}
-button:hover{
-  opacity:.9;
-}
-.note{
-  font-size:13px;
-  color:#9ca3af;
-  margin-top:14px;
+.loader{
+  margin-top:20px;
+  font-size:14px;
+  color:#94a3b8;
 }
 </style>
 </head>
@@ -76,32 +52,26 @@ button:hover{
 <body>
 
 <div class="box">
-  <h1>Akses Ebook Anda</h1>
-
-  <p>
-    Terima kasih kerana membuat bayaran 🙏<br>
-    Sila masukkan nama anda untuk akses ebook.
-  </p>
-
-  <input type="text" id="nama" placeholder="Nama Penuh" />
-
-  <button onclick="goAccess()">Buka Ebook</button>
-
-  <div class="note">
-    Akses ini adalah untuk kegunaan peribadi sahaja.
-  </div>
+  <h1>Akses Ebook</h1>
+  <p id="msg">Sedang menyediakan akses anda...</p>
+  <div class="loader">Sila tunggu sebentar</div>
 </div>
 
 <script>
-function goAccess(){
-  const nama = document.getElementById("nama").value.trim();
-  if(!nama){
-    alert("Sila masukkan nama anda.");
-    return;
-  }
-  const encodedName = encodeURIComponent(nama);
-  window.location.href =
-    "reader/income-zero.html?nama=" + encodedName;
+const params = new URLSearchParams(window.location.search);
+const nama = params.get("nama");
+
+if(nama){
+  document.getElementById("msg").innerHTML =
+    "Terima kasih <b>" + nama + "</b> 🙏<br>Akses ebook sedang dibuka...";
+
+  setTimeout(() => {
+    window.location.href =
+      "reader/income-zero.html?nama=" + encodeURIComponent(nama);
+  }, 2500);
+}else{
+  document.getElementById("msg").innerHTML =
+    "Akses tidak sah. Sila buat pembelian terlebih dahulu.";
 }
 </script>
 
