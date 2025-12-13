@@ -3,81 +3,178 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Jana Kod</title>
+<title>Pembayaran Berjaya | EbookKu</title>
 
 <style>
+:root{
+  --bg:#020617;
+  --card:#0b122b;
+  --accent:#22c55e;
+  --text:#f5f5f5;
+  --muted:#9ca3af;
+}
+*{box-sizing:border-box}
 body{
-  background:#020617;
-  color:#fff;
-  font-family:Arial,sans-serif;
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
   display:flex;
   justify-content:center;
   align-items:center;
   min-height:100vh;
 }
-.box{
-  background:#0b122b;
-  padding:25px;
-  border-radius:12px;
-  max-width:360px;
+.card{
+  background:var(--card);
   width:100%;
+  max-width:420px;
+  padding:32px 28px;
+  border-radius:18px;
+  box-shadow:0 20px 50px rgba(0,0,0,.45);
+  text-align:center;
 }
-input,button{
+h1{
+  margin:0 0 6px;
+  font-size:22px;
+}
+.sub{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:22px;
+}
+input{
   width:100%;
-  padding:12px;
-  margin-top:10px;
-  border-radius:8px;
-  border:none;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #1e293b;
+  background:#020617;
+  color:#fff;
   font-size:15px;
 }
 button{
-  background:#22c55e;
-  font-weight:bold;
+  width:100%;
+  margin-top:14px;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:var(--accent);
+  color:#000;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
 }
-pre{
-  margin-top:15px;
-  padding:12px;
+button.secondary{
+  background:#111827;
+  color:#fff;
+  border:1px solid #1f2937;
+}
+.codeBox{
+  margin-top:22px;
+  padding:16px;
   background:#020617;
-  border-radius:8px;
-  font-size:13px;
-  white-space:pre-wrap;
-  word-break:break-all;
+  border-radius:12px;
+  font-size:20px;
+  letter-spacing:2px;
+  color:var(--accent);
+  display:none;
+}
+.msg{
+  margin-top:12px;
+  font-size:14px;
+  color:#facc15;
+}
+.note{
+  margin-top:18px;
+  font-size:12px;
+  color:var(--muted);
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-  <h3>🔐 Test Jana Kod (Debug)</h3>
+<div class="card">
+  <h1>✅ Pembayaran Disahkan</h1>
+  <div class="sub">
+    Masukkan <b>nombor resit ToyyibPay</b> untuk jana kod akses ebook
+  </div>
 
-  <input id="resit" placeholder="TP123456">
-  <button onclick="jana()">JANA</button>
+  <input id="resit" placeholder="Contoh: TP123456">
+  <button onclick="janaKod()">Jana Kod Akses</button>
 
-  <pre id="out">Menunggu respon...</pre>
+  <div class="msg" id="msg"></div>
+
+  <div class="codeBox" id="codeBox"></div>
+
+  <button class="secondary" id="copyBtn" onclick="copyCode()" style="display:none">
+    Salin Kod
+  </button>
+
+  <button id="bacaBtn" onclick="baca()" style="display:none">
+    📘 Baca Ebook Sekarang
+  </button>
+
+  <div class="note">
+    Simpan kod ini untuk rujukan anda.<br>
+    Jangan kongsi dengan orang lain.
+  </div>
 </div>
 
 <script>
-const API = "https://ebookku-access.gutstrader7.workers.dev";
+const API_URL = "https://ebookku-access.gutstrader7.workers.dev";
 
-function jana(){
-  const r = document.getElementById("resit").value.trim();
-  const out = document.getElementById("out");
+function janaKod(){
+  const resit = document.getElementById("resit").value.trim().toUpperCase();
+  const msg = document.getElementById("msg");
+  const box = document.getElementById("codeBox");
+  const copyBtn = document.getElementById("copyBtn");
+  const bacaBtn = document.getElementById("bacaBtn");
 
-  out.textContent = "Menghantar request...";
+  msg.textContent = "";
+  box.style.display = "none";
+  copyBtn.style.display = "none";
+  bacaBtn.style.display = "none";
 
-  fetch(API, {
+  if(!resit){
+    msg.textContent = "❌ Sila masukkan nombor resit";
+    return;
+  }
+
+  msg.textContent = "⏳ Menjana kod akses...";
+
+  fetch(API_URL,{
     method:"POST",
     headers:{ "Content-Type":"application/json" },
-    body: JSON.stringify({ resit: r })
+    body: JSON.stringify({ resit: resit })
   })
-  .then(res => res.text())   // ⬅️ AMBIL TEXT DULU (PENTING)
-  .then(txt => {
-    out.textContent = txt;
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.status!=="ok"){
+      msg.textContent = "❌ " + (d.msg || "Gagal jana kod");
+      return;
+    }
+
+    msg.textContent = "✅ Kod akses berjaya dijana";
+    box.textContent = d.code;
+    box.style.display = "block";
+    copyBtn.style.display = "block";
+    bacaBtn.style.display = "block";
+
+    localStorage.setItem("ebookku_code", d.code);
   })
-  .catch(err => {
-    out.textContent = "ERROR: " + err;
+  .catch(()=>{
+    msg.textContent = "❌ Ralat sambungan. Cuba lagi.";
   });
+}
+
+function copyCode(){
+  const text = document.getElementById("codeBox").textContent;
+  navigator.clipboard.writeText(text);
+  alert("Kod telah disalin");
+}
+
+function baca(){
+  window.location.href = "reader/income-zero.html";
 }
 </script>
 
