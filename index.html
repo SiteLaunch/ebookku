@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ebook Mini Digital | Belajar & Jana Income</title>
+<title>Mini Digital Ebook | Belajar & Jana Income</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
@@ -26,14 +26,14 @@ body{
 a{text-decoration:none;color:inherit}
 
 .container{
-  max-width:1100px;
+  max-width:1200px;
   margin:auto;
   padding:24px;
 }
 
 /* HERO */
 .hero{
-  padding:80px 0 50px;
+  padding:70px 0 40px;
   text-align:center;
 }
 .badge{
@@ -46,7 +46,7 @@ a{text-decoration:none;color:inherit}
   margin-bottom:16px;
 }
 .hero h1{
-  font-size:36px;
+  font-size:34px;
   line-height:1.2;
   margin:0 0 14px;
 }
@@ -61,20 +61,43 @@ a{text-decoration:none;color:inherit}
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:22px;
+  gap:24px;
   margin-top:50px;
 }
+
+/* CARD */
 .card{
   background:linear-gradient(180deg,#0b122b,#020617);
   border:1px solid var(--border);
   border-radius:22px;
-  padding:26px;
+  padding:22px;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+.cover{
+  text-align:center;
+  margin-bottom:16px;
+}
+.cover img{
+  width:100%;
+  max-width:220px;
+  height:auto;
+  border-radius:14px;
+}
+.tag{
+  display:inline-block;
+  font-size:12px;
+  color:var(--accent);
+  margin-bottom:6px;
 }
 .card h3{
-  margin:0 0 8px;
+  margin:6px 0 8px;
   font-size:20px;
 }
 .card p{
@@ -82,15 +105,9 @@ a{text-decoration:none;color:inherit}
   color:var(--muted);
   line-height:1.6;
 }
-.tag{
-  display:inline-block;
-  margin-bottom:10px;
-  font-size:12px;
-  color:var(--accent);
-}
 .price{
-  margin:18px 0;
-  font-size:24px;
+  margin:16px 0;
+  font-size:22px;
   font-weight:800;
   color:var(--accent);
 }
@@ -116,7 +133,7 @@ a{text-decoration:none;color:inherit}
 }
 
 @media(max-width:600px){
-  .hero h1{font-size:28px}
+  .hero h1{font-size:26px}
 }
 </style>
 </head>
@@ -141,6 +158,9 @@ a{text-decoration:none;color:inherit}
     <!-- EBOOK 1 -->
     <div class="card">
       <div>
+        <div class="cover">
+          <img src="images/covers/income-zero.jpg" alt="Jana Income Online Dari Zero">
+        </div>
         <span class="tag">🔥 Popular</span>
         <h3>Jana Income Online Dari Zero</h3>
         <p>
@@ -149,7 +169,7 @@ a{text-decoration:none;color:inherit}
         </p>
         <div class="price">RM9</div>
       </div>
-      <a href="https://toyyibpay.com/Ebook-Panduan-Lengkap-Jana-In" class="btn">
+      <a href="https://toyyibpay.com/XXXXXXXX" class="btn">
         Dapatkan Ebook
       </a>
     </div>
@@ -157,11 +177,14 @@ a{text-decoration:none;color:inherit}
     <!-- EBOOK 2 -->
     <div class="card">
       <div>
+        <div class="cover">
+          <img src="images/covers/affiliate-biasa.jpg" alt="Affiliate Untuk Orang Biasa">
+        </div>
         <span class="tag">🧠 Beginner</span>
         <h3>Affiliate Untuk Orang Biasa</h3>
         <p>
-          Faham konsep affiliate, cara pilih produk dan
-          kesilapan biasa yang buat orang tak buat sales.
+          Faham konsep affiliate, cara pilih produk
+          dan kesilapan biasa yang buat orang tak buat sales.
         </p>
         <div class="price">RM9</div>
       </div>
@@ -173,11 +196,14 @@ a{text-decoration:none;color:inherit}
     <!-- EBOOK 3 -->
     <div class="card">
       <div>
-        <span class="tag">🚗 Side Income</span>
-        <h3>Side Income Insurans & Roadtax</h3>
+        <div class="cover">
+          <img src="images/covers/phone-income.jpg" alt="Side Income Guna Telefon Je">
+        </div>
+        <span class="tag">📱 No Video</span>
+        <h3>Side Income Guna Telefon Je</h3>
         <p>
-          Cara bina income sampingan dari servis renew
-          insurans & roadtax tanpa kedai fizikal.
+          Cara jana income hanya guna telefon
+          tanpa perlu buat video atau tunjuk muka.
         </p>
         <div class="price">RM9</div>
       </div>
@@ -186,9 +212,12 @@ a{text-decoration:none;color:inherit}
       </a>
     </div>
 
-    <!-- PLACEHOLDER -->
+    <!-- COMING SOON -->
     <div class="card">
       <div>
+        <div class="cover">
+          <img src="images/covers/coming-soon.jpg" alt="Akan Datang">
+        </div>
         <span class="tag">⏳ Akan Datang</span>
         <h3>Mini Ebook Seterusnya</h3>
         <p>
