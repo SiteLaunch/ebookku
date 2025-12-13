@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Akses Ebook | EbookKu</title>
 
 <style>
@@ -62,10 +62,10 @@ button:disabled{
 }
 </style>
 
+<!-- 🔐 AUTO LOGIN (JIKA DAH PERNAH SAH) -->
 <script>
-/* 🚀 AUTO LOGIN JIKA DAH PERNAH SAH */
 if (localStorage.getItem("ebookku_logged") === "yes") {
-  window.location.href = "/reader/income-zero.html";
+  window.location.href = "reader/income-zero.html";
 }
 </script>
 </head>
@@ -74,9 +74,9 @@ if (localStorage.getItem("ebookku_logged") === "yes") {
 
 <div class="box">
   <h1>🔓 Akses Ebook</h1>
-  <p>Masukkan <b>nombor resit</b> bayaran ToyyibPay anda</p>
+  <p>Masukkan <b>nombor resit</b> bayaran anda</p>
 
-  <input id="resit" placeholder="Contoh: TP123456" />
+  <input id="resit" placeholder="Contoh: ABC123">
   <button onclick="checkResit()">Buka Ebook</button>
 
   <div class="msg" id="msg"></div>
@@ -92,8 +92,8 @@ async function checkResit(){
     return;
   }
 
-  msg.innerHTML = "⏳ Sahkan resit...";
-  
+  msg.innerHTML = "⏳ Menyemak resit...";
+
   try{
     const r = await fetch("https://ebookku-access.gutstrader7.workers.dev/", {
       method:"POST",
@@ -107,13 +107,14 @@ async function checkResit(){
     const data = await r.json();
 
     if(data.status === "ok"){
-      // ✅ SIMPAN LOGIN
+      // ✅ SIMPAN SESSION LOGIN
       localStorage.setItem("ebookku_logged","yes");
       localStorage.setItem("ebookku_resit",resit);
 
-      window.location.href = "/reader/income-zero.html";
+      // 🔁 REDIRECT BETUL UNTUK GITHUB PAGES
+      window.location.href = "reader/income-zero.html";
     } else {
-      msg.innerHTML = "❌ " + (data.message || "Resit tidak sah / telah digunakan");
+      msg.innerHTML = "❌ Resit tidak sah atau telah digunakan";
     }
 
   }catch(e){
