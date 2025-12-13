@@ -13,6 +13,7 @@
   --muted:#9ca3af;
   --accent:#facc15;
 }
+*{box-sizing:border-box}
 body{
   margin:0;
   font-family:Inter,Arial,sans-serif;
@@ -25,26 +26,69 @@ body{
 }
 .box{
   background:var(--card);
+  width:94%;
   max-width:420px;
-  width:92%;
-  padding:30px 22px 36px;
+  padding:28px 22px 34px;
   border-radius:18px;
-  text-align:center;
 }
 h1{
   color:var(--accent);
-  font-size:24px;
-  margin-bottom:12px;
+  font-size:22px;
+  margin-bottom:10px;
+  text-align:center;
 }
 p{
   color:var(--muted);
-  font-size:15px;
-  margin:12px 0;
-}
-.loader{
-  margin-top:20px;
   font-size:14px;
+  line-height:1.6;
+  text-align:center;
+}
+label{
+  display:block;
+  margin-top:18px;
+  font-size:14px;
+}
+input{
+  width:100%;
+  padding:14px;
+  margin-top:6px;
+  border-radius:12px;
+  border:none;
+  outline:none;
+  font-size:15px;
+}
+button{
+  margin-top:22px;
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  background:var(--accent);
+  color:#020617;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+}
+button:hover{opacity:.9}
+.note{
+  margin-top:14px;
+  font-size:12px;
   color:#94a3b8;
+  text-align:center;
+}
+.error{
+  margin-top:14px;
+  color:#f87171;
+  font-size:13px;
+  text-align:center;
+  display:none;
+}
+.success{
+  margin-top:14px;
+  color:#a7f3d0;
+  font-size:13px;
+  text-align:center;
+  display:none;
 }
 </style>
 </head>
@@ -53,25 +97,64 @@ p{
 
 <div class="box">
   <h1>Akses Ebook</h1>
-  <p id="msg">Sedang menyediakan akses anda...</p>
-  <div class="loader">Sila tunggu sebentar</div>
+
+  <p>
+    Terima kasih kerana membuat bayaran 🙏<br>
+    Sila sahkan maklumat anda untuk membuka ebook.
+  </p>
+
+  <label>Nama Penuh</label>
+  <input type="text" id="nama" placeholder="Contoh: Ahmad Ali">
+
+  <label>Email (digunakan semasa bayaran)</label>
+  <input type="email" id="email" placeholder="contoh@email.com">
+
+  <label>No Rujukan / Resit ToyyibPay</label>
+  <input type="text" id="ref" placeholder="Contoh: TP123456">
+
+  <button onclick="unlock()">Buka Ebook</button>
+
+  <div class="error" id="errorMsg"></div>
+  <div class="success" id="successMsg">Akses disahkan. Membuka ebook…</div>
+
+  <div class="note">
+    Akses ini adalah untuk kegunaan peribadi sahaja.<br>
+    Jangan kongsi kepada pihak lain.
+  </div>
 </div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const nama = params.get("nama");
+function unlock(){
+  const nama = document.getElementById("nama").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const ref = document.getElementById("ref").value.trim();
+  const error = document.getElementById("errorMsg");
+  const success = document.getElementById("successMsg");
 
-if(nama){
-  document.getElementById("msg").innerHTML =
-    "Terima kasih <b>" + nama + "</b> 🙏<br>Akses ebook sedang dibuka...";
+  error.style.display="none";
+  success.style.display="none";
+
+  if(!nama || !email || !ref){
+    error.textContent = "Sila lengkapkan semua maklumat.";
+    error.style.display="block";
+    return;
+  }
+
+  if(!email.includes("@")){
+    error.textContent = "Email tidak sah.";
+    error.style.display="block";
+    return;
+  }
+
+  // Simpan sementara (basic anti-refresh)
+  sessionStorage.setItem("ebook_access", "1");
+
+  success.style.display="block";
 
   setTimeout(() => {
     window.location.href =
       "reader/income-zero.html?nama=" + encodeURIComponent(nama);
-  }, 2500);
-}else{
-  document.getElementById("msg").innerHTML =
-    "Akses tidak sah. Sila buat pembelian terlebih dahulu.";
+  }, 1500);
 }
 </script>
 
