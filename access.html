@@ -52,22 +52,12 @@ button{
   font-weight:bold;
   cursor:pointer;
 }
-button:disabled{
-  opacity:.6;
-}
 .msg{
   margin-top:15px;
   text-align:center;
   font-size:14px;
 }
 </style>
-
-<!-- 🔐 AUTO LOGIN (JIKA DAH PERNAH SAH) -->
-<script>
-if (localStorage.getItem("ebookku_logged") === "yes") {
-  window.location.href = "reader/income-zero.html";
-}
-</script>
 </head>
 
 <body>
@@ -107,11 +97,7 @@ async function checkResit(){
     const data = await r.json();
 
     if(data.status === "ok"){
-      // ✅ SIMPAN SESSION LOGIN
-      localStorage.setItem("ebookku_logged","yes");
-      localStorage.setItem("ebookku_resit",resit);
-
-      // 🔁 REDIRECT BETUL UNTUK GITHUB PAGES
+      // ✅ LULUS → MASUK EBOOK
       window.location.href = "reader/income-zero.html";
     } else {
       msg.innerHTML = "❌ Resit tidak sah atau telah digunakan";
