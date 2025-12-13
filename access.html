@@ -121,12 +121,12 @@ button:hover{opacity:.9}
 
   <div class="note">
     Akses ini adalah untuk kegunaan peribadi sahaja.<br>
-    Jangan kongsi kepada pihak lain.
+    Setiap resit hanya boleh digunakan sekali.
   </div>
 </div>
 
 <script>
-// 🔴 TUKAR URL INI SAHAJA
+// 🔴 TUKAR URL GOOGLE APPS SCRIPT DI SINI SAHAJA
 const SHEET_API =
   "https://script.google.com/macros/s/AKfycbwD77b4HHH-wP-FIMBAs5kBS33U8I05bLCEZnqU5L2cD-byV7hvogqfXLv-OLk8wVOyXQ/exec";
 
@@ -150,14 +150,14 @@ function unlock(){
     return;
   }
 
-  // ✅ CHECK FORMAT RESIT (BASIC)
+  // ✅ CHECK FORMAT RESIT
   const resitRegex = /^[A-Za-z0-9\-]{6,}$/;
   if(!resitRegex.test(ref)){
     showError("Format nombor resit tidak sah.");
     return;
   }
 
-  // ✅ HANTAR DATA KE GOOGLE SHEET
+  // ✅ HANTAR KE GOOGLE SHEET (CHECK 1 RESIT = 1 AKSES)
   fetch(SHEET_API, {
     method: "POST",
     body: JSON.stringify({
@@ -166,14 +166,31 @@ function unlock(){
       resit: ref,
       ua: navigator.userAgent
     })
-  }).catch(()=>{});
+  })
+  .then(res => res.json())
+  .then(data => {
 
-  success.style.display="block";
+    if (data.status === "used") {
+      showError("❌ Resit ini telah digunakan sebelum ini.");
+      return;
+    }
 
-  setTimeout(() => {
-    window.location.href =
-      "reader/income-zero.html?nama=" + encodeURIComponent(nama);
-  }, 1200);
+    if (data.status !== "ok") {
+      showError("Ralat sistem. Sila cuba semula.");
+      return;
+    }
+
+    success.style.display="block";
+
+    setTimeout(() => {
+      window.location.href =
+        "reader/income-zero.html?nama=" + encodeURIComponent(nama);
+    }, 1200);
+
+  })
+  .catch(() => {
+    showError("Tidak dapat sahkan akses. Cuba lagi.");
+  });
 }
 
 function showError(msg){
