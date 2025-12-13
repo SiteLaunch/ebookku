@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<title>Pembayaran Berjaya</title>
+</head>
+<body>
+<h2>Sila tunggu…</h2>
+<p>Mengesahkan bayaran anda.</p>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+// data dari ToyyibPay
+const billcode = params.get("billcode");
+const amount = params.get("amount");
+const status = params.get("status");
+const transactionId =
+  params.get("transaction_id") ||
+  params.get("refno") ||
+  "NA";
+
+// hantar ke Worker
+fetch("https://ebookku-access.gutstrader7.workers.dev", {
+  method: "POST",
+  body: new URLSearchParams({
+    billcode,
+    amount,
+    status,
+    transaction_id: transactionId
+  })
+}).then(() => {
+  // Worker akan redirect
+});
+</script>
+</body>
+</html>
