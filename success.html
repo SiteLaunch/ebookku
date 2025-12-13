@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jana Kod Ebook</title>
+<title>Test Jana Kod</title>
 
 <style>
 body{
@@ -19,7 +19,7 @@ body{
   background:#0b122b;
   padding:25px;
   border-radius:12px;
-  max-width:380px;
+  max-width:360px;
   width:100%;
 }
 input,button{
@@ -33,22 +33,15 @@ input,button{
 button{
   background:#22c55e;
   font-weight:bold;
-  cursor:pointer;
 }
-.code{
+pre{
   margin-top:15px;
   padding:12px;
   background:#020617;
   border-radius:8px;
-  text-align:center;
-  font-size:18px;
-  letter-spacing:2px;
-  display:none;
-}
-.msg{
-  margin-top:10px;
-  font-size:14px;
-  color:#facc15;
+  font-size:13px;
+  white-space:pre-wrap;
+  word-break:break-all;
 }
 </style>
 </head>
@@ -56,61 +49,34 @@ button{
 <body>
 
 <div class="box">
-  <h2>🔐 Jana Kod Akses</h2>
-  <p>Masukkan nombor resit ToyyibPay</p>
+  <h3>🔐 Test Jana Kod (Debug)</h3>
 
-  <input id="resit" placeholder="Contoh: TP123456">
-  <button onclick="janaKod()">JANA KOD</button>
+  <input id="resit" placeholder="TP123456">
+  <button onclick="jana()">JANA</button>
 
-  <div class="msg" id="msg"></div>
-  <div class="code" id="code"></div>
+  <pre id="out">Menunggu respon...</pre>
 </div>
 
 <script>
-const API_URL = "https://ebookku-access.gutstrader7.workers.dev
-";
+const API = "https://ebookku-access.gutstrader7.workers.dev";
 
-function janaKod(){
-  const resit = document.getElementById("resit").value.trim();
-  const msg = document.getElementById("msg");
-  const codeBox = document.getElementById("code");
+function jana(){
+  const r = document.getElementById("resit").value.trim();
+  const out = document.getElementById("out");
 
-  msg.innerText = "";
-  codeBox.style.display = "none";
+  out.textContent = "Menghantar request...";
 
-  if(!resit){
-    msg.innerText = "❌ Sila masukkan nombor resit";
-    return;
-  }
-
-  msg.innerText = "⏳ Menghubungi server...";
-
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ resit: resit })
+  fetch(API, {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ resit: r })
   })
-  .then(r => {
-    if(!r.ok) throw new Error("HTTP " + r.status);
-    return r.json();
-  })
-  .then(d => {
-    console.log("API response:", d);
-
-    if(d.status !== "ok"){
-      msg.innerText = "❌ " + (d.msg || "Gagal jana kod");
-      return;
-    }
-
-    msg.innerText = "✅ Kod berjaya dijana";
-    codeBox.innerText = d.code;
-    codeBox.style.display = "block";
-
-    localStorage.setItem("ebookku_code", d.code);
+  .then(res => res.text())   // ⬅️ AMBIL TEXT DULU (PENTING)
+  .then(txt => {
+    out.textContent = txt;
   })
   .catch(err => {
-    console.error(err);
-    msg.innerText = "❌ Tak dapat hubungi server";
+    out.textContent = "ERROR: " + err;
   });
 }
 </script>
