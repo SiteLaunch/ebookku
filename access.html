@@ -1,111 +1,123 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <title>Akses EbookKu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Akses Ebook | EbookKu</title>
 
-  <style>
-    body {
-      font-family: Inter, Arial, sans-serif;
-      background: #020617;
-      color: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .box {
-      background: #0b122b;
-      padding: 30px;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 20px 50px rgba(0,0,0,.4);
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input, button {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      border-radius: 10px;
-      border: none;
-      font-size: 15px;
-    }
-    input {
-      background: #020617;
-      color: #fff;
-      border: 1px solid #1e293b;
-    }
-    button {
-      background: #22c55e;
-      color: #000;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .msg {
-      text-align: center;
-      margin-top: 10px;
-      color: #facc15;
-    }
-  </style>
+<style>
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:#020617;
+  color:#f5f5f5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+}
+.box{
+  background:#0b122b;
+  width:100%;
+  max-width:420px;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+h1{
+  text-align:center;
+  margin-bottom:10px;
+}
+p{
+  text-align:center;
+  color:#bbb;
+  font-size:14px;
+}
+input{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:none;
+  margin-top:15px;
+  font-size:16px;
+}
+button{
+  width:100%;
+  margin-top:15px;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#22c55e;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:disabled{
+  opacity:.6;
+}
+.msg{
+  margin-top:15px;
+  text-align:center;
+  font-size:14px;
+}
+</style>
+
+<script>
+/* 🚀 AUTO LOGIN JIKA DAH PERNAH SAH */
+if (localStorage.getItem("ebookku_logged") === "yes") {
+  window.location.href = "/reader/income-zero.html";
+}
+</script>
 </head>
+
 <body>
 
 <div class="box">
-  <h1>📘 Akses Ebook</h1>
+  <h1>🔓 Akses Ebook</h1>
+  <p>Masukkan <b>nombor resit</b> bayaran ToyyibPay anda</p>
 
-  <input id="nama" placeholder="Nama penuh">
-  <input id="email" placeholder="Email">
-  <input id="resit" placeholder="No Resit / Bill Code">
-
-  <button onclick="akses()">BUKA EBOOK</button>
+  <input id="resit" placeholder="Contoh: TP123456" />
+  <button onclick="checkResit()">Buka Ebook</button>
 
   <div class="msg" id="msg"></div>
 </div>
 
 <script>
-async function akses() {
-  const nama = document.getElementById("nama").value.trim();
-  const email = document.getElementById("email").value.trim();
+async function checkResit(){
   const resit = document.getElementById("resit").value.trim();
   const msg = document.getElementById("msg");
 
-  if (!nama || !email || !resit) {
-    msg.innerText = "❌ Sila lengkapkan semua maklumat";
+  if(!resit){
+    msg.innerHTML = "❌ Sila masukkan nombor resit";
     return;
   }
 
-  msg.innerText = "⏳ Semak resit...";
+  msg.innerHTML = "⏳ Sahkan resit...";
+  
+  try{
+    const r = await fetch("https://ebookku-access.gutstrader7.workers.dev/", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({
+        resit: resit,
+        ua: navigator.userAgent
+      })
+    });
 
-  try {
-    const res = await fetch(
-      "https://ebookku-access.gutstrader7.workers.dev/",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nama,
-          email,
-          resit,
-          ua: navigator.userAgent
-        })
-      }
-    );
+    const data = await r.json();
 
-    const data = await res.json();
+    if(data.status === "ok"){
+      // ✅ SIMPAN LOGIN
+      localStorage.setItem("ebookku_logged","yes");
+      localStorage.setItem("ebookku_resit",resit);
 
-    if (data.status === "ok") {
-      window.location.href = "reader/income-zero.html";
+      window.location.href = "/reader/income-zero.html";
     } else {
-      msg.innerText = "❌ " + data.msg;
+      msg.innerHTML = "❌ " + (data.message || "Resit tidak sah / telah digunakan");
     }
 
-  } catch (e) {
-    msg.innerText = "❌ Ralat sistem. Cuba lagi.";
+  }catch(e){
+    msg.innerHTML = "❌ Ralat sambungan. Cuba semula.";
   }
 }
 </script>
