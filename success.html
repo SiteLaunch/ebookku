@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pembayaran Berjaya | EbookKu</title>
+<title>Akses Ebook | EbookKu</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -12,111 +14,148 @@
   --accent:#22c55e;
   --text:#f5f5f5;
   --muted:#9ca3af;
+  --border:#1f2937;
 }
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:Inter,Arial,sans-serif;
-  background:var(--bg);
+  background:
+    radial-gradient(1200px 600px at top,#020617,#000);
   color:var(--text);
-  display:flex;
-  justify-content:center;
-  align-items:center;
   min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.card{
-  background:var(--card);
+.wrap{
   width:100%;
   max-width:420px;
-  padding:32px 28px;
-  border-radius:18px;
-  box-shadow:0 20px 50px rgba(0,0,0,.45);
-  text-align:center;
+  padding:16px;
+}
+.card{
+  background:linear-gradient(180deg,#0b122b,#020617);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:30px 26px;
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+  animation:fadeUp .6s ease;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
+}
+.badge{
+  display:inline-block;
+  padding:6px 12px;
+  font-size:12px;
+  border-radius:999px;
+  background:rgba(34,197,94,.12);
+  color:var(--accent);
+  margin-bottom:12px;
 }
 h1{
-  margin:0 0 6px;
   font-size:22px;
+  margin:0 0 6px;
 }
 .sub{
-  color:var(--muted);
   font-size:14px;
+  color:var(--muted);
   margin-bottom:22px;
+  line-height:1.5;
 }
-input{
+.input{
   width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #1e293b;
+  padding:15px;
+  border-radius:14px;
+  border:1px solid var(--border);
   background:#020617;
   color:#fff;
   font-size:15px;
 }
-button{
+.btn{
   width:100%;
   margin-top:14px;
-  padding:14px;
+  padding:15px;
   border:none;
-  border-radius:12px;
-  background:var(--accent);
+  border-radius:14px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
   color:#000;
   font-size:15px;
-  font-weight:700;
+  font-weight:800;
   cursor:pointer;
 }
-button.secondary{
-  background:#111827;
+.btn.secondary{
+  background:#020617;
   color:#fff;
-  border:1px solid #1f2937;
+  border:1px solid var(--border);
+}
+.msg{
+  margin-top:14px;
+  font-size:14px;
+  color:#facc15;
+  text-align:center;
 }
 .codeBox{
   margin-top:22px;
-  padding:16px;
+  padding:18px;
+  border-radius:16px;
   background:#020617;
-  border-radius:12px;
+  border:1px dashed rgba(34,197,94,.4);
   font-size:20px;
   letter-spacing:2px;
   color:var(--accent);
+  text-align:center;
   display:none;
 }
-.msg{
-  margin-top:12px;
-  font-size:14px;
-  color:#facc15;
+.actions{
+  margin-top:14px;
+  display:none;
+  gap:10px;
+}
+.actions button{
+  flex:1;
 }
 .note{
   margin-top:18px;
   font-size:12px;
   color:var(--muted);
+  text-align:center;
+  line-height:1.5;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h1>✅ Pembayaran Disahkan</h1>
-  <div class="sub">
-    Masukkan <b>nombor resit ToyyibPay</b> untuk jana kod akses ebook
-  </div>
+<div class="wrap">
+  <div class="card">
 
-  <input id="resit" placeholder="Contoh: TP123456">
-  <button onclick="janaKod()">Jana Kod Akses</button>
+    <div class="badge">✔ Pembayaran Disahkan</div>
 
-  <div class="msg" id="msg"></div>
+    <h1>Akses Ebook Anda</h1>
+    <div class="sub">
+      Masukkan <b>nombor resit ToyyibPay</b> untuk jana kod akses ebook.
+    </div>
 
-  <div class="codeBox" id="codeBox"></div>
+    <input id="resit" class="input" placeholder="Contoh: TP123456">
 
-  <button class="secondary" id="copyBtn" onclick="copyCode()" style="display:none">
-    Salin Kod
-  </button>
+    <button class="btn" onclick="janaKod()">Jana Kod Akses</button>
 
-  <button id="bacaBtn" onclick="baca()" style="display:none">
-    📘 Baca Ebook Sekarang
-  </button>
+    <div class="msg" id="msg"></div>
 
-  <div class="note">
-    Simpan kod ini untuk rujukan anda.<br>
-    Jangan kongsi dengan orang lain.
+    <div class="codeBox" id="codeBox"></div>
+
+    <div class="actions" id="actions">
+      <button class="btn secondary" onclick="copyCode()">Salin Kod</button>
+      <button class="btn" onclick="baca()">Baca Ebook</button>
+    </div>
+
+    <div class="note">
+      Simpan kod ini untuk rujukan anda.<br>
+      Jangan kongsi dengan orang lain.
+    </div>
+
   </div>
 </div>
 
@@ -127,13 +166,11 @@ function janaKod(){
   const resit = document.getElementById("resit").value.trim().toUpperCase();
   const msg = document.getElementById("msg");
   const box = document.getElementById("codeBox");
-  const copyBtn = document.getElementById("copyBtn");
-  const bacaBtn = document.getElementById("bacaBtn");
+  const actions = document.getElementById("actions");
 
   msg.textContent = "";
   box.style.display = "none";
-  copyBtn.style.display = "none";
-  bacaBtn.style.display = "none";
+  actions.style.display = "none";
 
   if(!resit){
     msg.textContent = "❌ Sila masukkan nombor resit";
@@ -145,7 +182,7 @@ function janaKod(){
   fetch(API_URL,{
     method:"POST",
     headers:{ "Content-Type":"application/json" },
-    body: JSON.stringify({ resit: resit })
+    body: JSON.stringify({ resit })
   })
   .then(r=>r.json())
   .then(d=>{
@@ -157,8 +194,7 @@ function janaKod(){
     msg.textContent = "✅ Kod akses berjaya dijana";
     box.textContent = d.code;
     box.style.display = "block";
-    copyBtn.style.display = "block";
-    bacaBtn.style.display = "block";
+    actions.style.display = "flex";
 
     localStorage.setItem("ebookku_code", d.code);
   })
@@ -168,8 +204,9 @@ function janaKod(){
 }
 
 function copyCode(){
-  const text = document.getElementById("codeBox").textContent;
-  navigator.clipboard.writeText(text);
+  navigator.clipboard.writeText(
+    document.getElementById("codeBox").textContent
+  );
   alert("Kod telah disalin");
 }
 
