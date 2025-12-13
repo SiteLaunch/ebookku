@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jana Kod Akses Ebook</title>
+<title>Jana Kod Ebook</title>
 
 <style>
 body{
-  font-family:Inter,Arial,sans-serif;
   background:#020617;
-  color:#f5f5f5;
+  color:#fff;
+  font-family:Arial,sans-serif;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -17,42 +17,36 @@ body{
 }
 .box{
   background:#0b122b;
-  padding:30px;
-  border-radius:16px;
-  text-align:center;
-  max-width:420px;
+  padding:25px;
+  border-radius:12px;
+  max-width:380px;
   width:100%;
 }
-input{
+input,button{
   width:100%;
-  padding:14px;
-  border-radius:10px;
+  padding:12px;
+  margin-top:10px;
+  border-radius:8px;
   border:none;
-  margin-top:15px;
-  font-size:16px;
+  font-size:15px;
 }
 button{
-  width:100%;
-  margin-top:15px;
-  padding:14px;
-  border:none;
-  border-radius:10px;
   background:#22c55e;
-  font-size:16px;
   font-weight:bold;
   cursor:pointer;
 }
 .code{
-  margin-top:20px;
-  padding:15px;
+  margin-top:15px;
+  padding:12px;
   background:#020617;
-  border-radius:10px;
-  font-size:20px;
+  border-radius:8px;
+  text-align:center;
+  font-size:18px;
   letter-spacing:2px;
-  color:#22c55e;
+  display:none;
 }
 .msg{
-  margin-top:15px;
+  margin-top:10px;
   font-size:14px;
   color:#facc15;
 }
@@ -62,61 +56,62 @@ button{
 <body>
 
 <div class="box">
-  <h1>🔐 Jana Kod Akses Ebook</h1>
-  <p>Sila masukkan <b>nombor resit ToyyibPay</b> anda</p>
+  <h2>🔐 Jana Kod Akses</h2>
+  <p>Masukkan nombor resit ToyyibPay</p>
 
   <input id="resit" placeholder="Contoh: TP123456">
-  <button onclick="jana()">Jana Kod</button>
+  <button onclick="janaKod()">JANA KOD</button>
 
   <div class="msg" id="msg"></div>
-  <div class="code" id="code" style="display:none"></div>
-
-  <button id="bacaBtn" onclick="baca()" style="display:none;margin-top:15px">
-    Baca Ebook Sekarang
-  </button>
+  <div class="code" id="code"></div>
 </div>
 
 <script>
-function jana(){
-  const resit = document.getElementById("resit").value.trim().toUpperCase();
+const API_URL = "https://ebookku-access.gutstrader7.workers.dev
+";
+
+function janaKod(){
+  const resit = document.getElementById("resit").value.trim();
   const msg = document.getElementById("msg");
   const codeBox = document.getElementById("code");
-  const bacaBtn = document.getElementById("bacaBtn");
+
+  msg.innerText = "";
+  codeBox.style.display = "none";
 
   if(!resit){
     msg.innerText = "❌ Sila masukkan nombor resit";
     return;
   }
 
-  msg.innerText = "⏳ Menjana kod...";
+  msg.innerText = "⏳ Menghubungi server...";
 
-  fetch("https://ebookku-access.gutstrader7.workers.dev
-", {
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
+  fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ resit: resit })
   })
-  .then(r => r.json())
+  .then(r => {
+    if(!r.ok) throw new Error("HTTP " + r.status);
+    return r.json();
+  })
   .then(d => {
+    console.log("API response:", d);
+
     if(d.status !== "ok"){
-      msg.innerText = "❌ " + d.msg;
+      msg.innerText = "❌ " + (d.msg || "Gagal jana kod");
       return;
     }
 
     msg.innerText = "✅ Kod berjaya dijana";
-    codeBox.style.display = "block";
     codeBox.innerText = d.code;
-    bacaBtn.style.display = "block";
+    codeBox.style.display = "block";
 
     localStorage.setItem("ebookku_code", d.code);
   })
-  .catch(()=>{
-    msg.innerText = "❌ Ralat sambungan. Cuba lagi.";
+  .catch(err => {
+    console.error(err);
+    msg.innerText = "❌ Tak dapat hubungi server";
   });
-}
-
-function baca(){
-  window.location.href = "reader/income-zero.html";
 }
 </script>
 
