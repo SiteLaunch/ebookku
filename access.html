@@ -106,7 +106,7 @@ button:hover{opacity:.9}
   <label>Nama Penuh</label>
   <input type="text" id="nama" placeholder="Contoh: Ahmad Ali">
 
-  <label>Email (digunakan semasa bayaran)</label>
+  <label>Email</label>
   <input type="email" id="email" placeholder="contoh@email.com">
 
   <label>No Rujukan / Resit ToyyibPay</label>
@@ -115,7 +115,9 @@ button:hover{opacity:.9}
   <button onclick="unlock()">Buka Ebook</button>
 
   <div class="error" id="errorMsg"></div>
-  <div class="success" id="successMsg">Akses disahkan. Membuka ebook…</div>
+  <div class="success" id="successMsg">
+    Akses disahkan. Membuka ebook…
+  </div>
 
   <div class="note">
     Akses ini adalah untuk kegunaan peribadi sahaja.<br>
@@ -124,6 +126,10 @@ button:hover{opacity:.9}
 </div>
 
 <script>
+// 🔴 TUKAR URL INI SAHAJA
+const SHEET_API =
+  "https://script.google.com/macros/s/AKfycbwD77b4HHH-wP-FIMBAs5kBS33U8I05bLCEZnqU5L2cD-byV7hvogqfXLv-OLk8wVOyXQ/exec";
+
 function unlock(){
   const nama = document.getElementById("nama").value.trim();
   const email = document.getElementById("email").value.trim();
@@ -135,26 +141,45 @@ function unlock(){
   success.style.display="none";
 
   if(!nama || !email || !ref){
-    error.textContent = "Sila lengkapkan semua maklumat.";
-    error.style.display="block";
+    showError("Sila lengkapkan semua maklumat.");
     return;
   }
 
   if(!email.includes("@")){
-    error.textContent = "Email tidak sah.";
-    error.style.display="block";
+    showError("Email tidak sah.");
     return;
   }
 
-  // Simpan sementara (basic anti-refresh)
-  sessionStorage.setItem("ebook_access", "1");
+  // ✅ CHECK FORMAT RESIT (BASIC)
+  const resitRegex = /^[A-Za-z0-9\-]{6,}$/;
+  if(!resitRegex.test(ref)){
+    showError("Format nombor resit tidak sah.");
+    return;
+  }
+
+  // ✅ HANTAR DATA KE GOOGLE SHEET
+  fetch(SHEET_API, {
+    method: "POST",
+    body: JSON.stringify({
+      nama: nama,
+      email: email,
+      resit: ref,
+      ua: navigator.userAgent
+    })
+  }).catch(()=>{});
 
   success.style.display="block";
 
   setTimeout(() => {
     window.location.href =
       "reader/income-zero.html?nama=" + encodeURIComponent(nama);
-  }, 1500);
+  }, 1200);
+}
+
+function showError(msg){
+  const error = document.getElementById("errorMsg");
+  error.textContent = msg;
+  error.style.display="block";
 }
 </script>
 
