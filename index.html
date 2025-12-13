@@ -3,40 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EbookKu • Mini Digital Ebook</title>
+<title>EbookKu • Mini Ebook Digital</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --bg:#020617;
   --card:#0b122b;
-  --border:#1e293b;
+  --accent:#22c55e;
   --text:#f8fafc;
   --muted:#94a3b8;
-  --accent:#22c55e;
 }
 
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
-  margin:0;
-  font-family:Inter,system-ui,Arial,sans-serif;
-  background:radial-gradient(1200px 600px at top,#020617,#000);
+  font-family:Inter,system-ui,sans-serif;
+  background:radial-gradient(1200px 600px at top,#0f172a,#020617);
   color:var(--text);
-}
-
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:30px 20px;
+  min-height:100vh;
 }
 
 /* HEADER */
-.header{
+header{
   text-align:center;
-  padding:40px 0 30px;
+  padding:28px 16px 18px;
 }
+
 .logo{
   display:flex;
   justify-content:center;
@@ -45,46 +39,53 @@ body{
   font-size:22px;
   font-weight:800;
 }
+
 .logo span{
-  color:var(--accent);
+  font-size:26px;
 }
-.subtitle{
-  margin-top:8px;
+
+.tagline{
+  margin-top:6px;
+  font-size:13px;
   color:var(--muted);
-  font-size:14px;
 }
 
 /* GRID */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px 16px 60px;
+}
+
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:26px;
-  margin-top:40px;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:18px;
 }
 
 /* CARD */
 .card{
-  background:linear-gradient(180deg,#0b122b,#020617);
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:18px;
+  background:linear-gradient(180deg,#0b122b,#070d20);
+  border-radius:18px;
+  padding:14px 14px 16px;
   text-align:center;
-  transition:all .25s ease;
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+  transition:.3s ease;
 }
 
 .card:hover{
   transform:translateY(-6px);
-  box-shadow:0 20px 50px rgba(0,0,0,.45);
-  border-color:#22c55e55;
 }
 
 /* COVER */
 .cover{
   width:100%;
+  max-width:200px;
   aspect-ratio:1/1;
+  margin:0 auto 12px;
   border-radius:16px;
   overflow:hidden;
-  margin-bottom:14px;
+  background:#020617;
 }
 
 .cover img{
@@ -94,86 +95,109 @@ body{
 }
 
 /* TITLE */
-.card h3{
-  font-size:15px;
-  font-weight:600;
-  margin:8px 0 2px;
+.title{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:6px;
 }
 
-.price{
-  font-size:14px;
-  font-weight:800;
-  color:var(--accent);
+/* DESC */
+.desc{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:12px;
+  line-height:1.4;
+}
+
+/* BUTTON */
+.btn{
+  display:inline-block;
+  padding:9px 14px;
+  font-size:12px;
+  font-weight:700;
+  color:#020617;
+  background:linear-gradient(135deg,#22c55e,#4ade80);
+  border-radius:999px;
+  text-decoration:none;
 }
 
 /* FOOTER */
-.footer{
-  margin-top:80px;
-  padding:30px 0;
-  border-top:1px solid var(--border);
+footer{
   text-align:center;
+  font-size:11px;
   color:var(--muted);
-  font-size:13px;
+  padding-bottom:24px;
+}
+
+/* MOBILE EXTRA CUN */
+@media(max-width:480px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+  }
+  .cover{
+    max-width:160px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container header">
+<header>
   <div class="logo">
-    📚 <span>EbookKu</span>
+    <span>📚</span> EbookKu
   </div>
-  <div class="subtitle">
-    Koleksi Mini Ebook Digital • Ringkas • Praktikal
+  <div class="tagline">
+    Mini Ebook Digital • Ringkas • Terus Praktikal
   </div>
-</div>
+</header>
 
-<div class="container">
+<section class="container">
   <div class="grid">
 
     <!-- EBOOK 1 -->
-    <a href="https://toyyibpay.com/XXXXXX" class="card">
+    <div class="card">
       <div class="cover">
         <img src="images/covers/kuasa-bisnes-online.jpg" alt="Kuasa Bisnes Online">
       </div>
-      <h3>Kuasa Bisnes Online</h3>
-      <div class="price">RM9</div>
-    </a>
+      <div class="title">Kuasa Bisnes Online</div>
+      <div class="desc">
+        Panduan ringkas jana income online dari zero.
+      </div>
+      <a href="kuasa-bisnes-online.html" class="btn">Baca Sekarang</a>
+    </div>
 
     <!-- EBOOK 2 -->
-    <a href="https://toyyibpay.com/YYYYYY" class="card">
+    <div class="card">
       <div class="cover">
-        <img src="images/covers/ebook-contoh-2.jpg" alt="Ebook Contoh 2">
+        <img src="images/covers/affiliate-zero.jpg" alt="Affiliate Dari Zero">
       </div>
-      <h3>Ebook Contoh 2</h3>
-      <div class="price">RM9</div>
-    </a>
+      <div class="title">Affiliate Dari Zero</div>
+      <div class="desc">
+        Cara mula tanpa modal & tanpa produk sendiri.
+      </div>
+      <a href="affiliate-zero.html" class="btn">Baca Sekarang</a>
+    </div>
 
     <!-- EBOOK 3 -->
-    <a href="https://toyyibpay.com/ZZZZZZ" class="card">
+    <div class="card">
       <div class="cover">
-        <img src="images/covers/ebook-contoh-3.jpg" alt="Ebook Contoh 3">
+        <img src="images/covers/digital-produk-mini.jpg" alt="Produk Digital Mini">
       </div>
-      <h3>Ebook Contoh 3</h3>
-      <div class="price">RM9</div>
-    </a>
-
-    <!-- COMING SOON -->
-    <div class="card" style="opacity:.5">
-      <div class="cover">
-        <img src="images/covers/coming-soon.jpg" alt="Coming Soon">
+      <div class="title">Produk Digital Mini</div>
+      <div class="desc">
+        Buat produk simple tapi boleh jual berulang.
       </div>
-      <h3>Akan Datang</h3>
-      <div class="price">Soon</div>
+      <a href="produk-digital-mini.html" class="btn">Baca Sekarang</a>
     </div>
 
   </div>
-</div>
+</section>
 
-<div class="container footer">
-  © 2025 EbookKu • Mini Digital Ebook Store
-</div>
+<footer>
+  © 2025 EbookKu • Mini Digital Knowledge Store
+</footer>
 
 </body>
 </html>
