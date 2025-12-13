@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pembayaran Berjaya</title>
+<title>Jana Kod Akses Ebook</title>
 
 <style>
 body{
@@ -11,8 +11,8 @@ body{
   background:#020617;
   color:#f5f5f5;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   min-height:100vh;
 }
 .box{
@@ -23,8 +23,27 @@ body{
   max-width:420px;
   width:100%;
 }
+input{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:none;
+  margin-top:15px;
+  font-size:16px;
+}
+button{
+  width:100%;
+  margin-top:15px;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#22c55e;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
 .code{
-  margin:20px 0;
+  margin-top:20px;
   padding:15px;
   background:#020617;
   border-radius:10px;
@@ -32,14 +51,10 @@ body{
   letter-spacing:2px;
   color:#22c55e;
 }
-button{
-  padding:14px 20px;
-  background:#22c55e;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
+.msg{
+  margin-top:15px;
+  font-size:14px;
+  color:#facc15;
 }
 </style>
 </head>
@@ -47,23 +62,57 @@ button{
 <body>
 
 <div class="box">
-  <h1>✅ Pembayaran Berjaya</h1>
-  <p>Kod akses ebook anda:</p>
+  <h1>🔐 Jana Kod Akses Ebook</h1>
+  <p>Sila masukkan <b>nombor resit ToyyibPay</b> anda</p>
 
-  <div class="code" id="code">Menjana kod...</div>
+  <input id="resit" placeholder="Contoh: TP123456">
+  <button onclick="jana()">Jana Kod</button>
 
-  <button onclick="baca()">Baca Ebook</button>
+  <div class="msg" id="msg"></div>
+  <div class="code" id="code" style="display:none"></div>
+
+  <button id="bacaBtn" onclick="baca()" style="display:none;margin-top:15px">
+    Baca Ebook Sekarang
+  </button>
 </div>
 
 <script>
-fetch("https://ebookku-access.gutstrader7.workers.dev/", {
-  method: "POST"
-})
-.then(r => r.json())
-.then(d => {
-  document.getElementById("code").innerText = d.code;
-  localStorage.setItem("ebookku_code", d.code);
-});
+function jana(){
+  const resit = document.getElementById("resit").value.trim().toUpperCase();
+  const msg = document.getElementById("msg");
+  const codeBox = document.getElementById("code");
+  const bacaBtn = document.getElementById("bacaBtn");
+
+  if(!resit){
+    msg.innerText = "❌ Sila masukkan nombor resit";
+    return;
+  }
+
+  msg.innerText = "⏳ Menjana kod...";
+
+  fetch("https://NAMA-WORKER-KAU.workers.dev", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ resit: resit })
+  })
+  .then(r => r.json())
+  .then(d => {
+    if(d.status !== "ok"){
+      msg.innerText = "❌ " + d.msg;
+      return;
+    }
+
+    msg.innerText = "✅ Kod berjaya dijana";
+    codeBox.style.display = "block";
+    codeBox.innerText = d.code;
+    bacaBtn.style.display = "block";
+
+    localStorage.setItem("ebookku_code", d.code);
+  })
+  .catch(()=>{
+    msg.innerText = "❌ Ralat sambungan. Cuba lagi.";
+  });
+}
 
 function baca(){
   window.location.href = "reader/income-zero.html";
