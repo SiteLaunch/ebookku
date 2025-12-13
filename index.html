@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Digital Ebook | Belajar & Jana Income</title>
+<title>EbookKu • Mini Digital Ebook</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
@@ -11,58 +11,55 @@
 :root{
   --bg:#020617;
   --card:#0b122b;
+  --border:#1e293b;
+  --text:#f8fafc;
+  --muted:#94a3b8;
   --accent:#22c55e;
-  --text:#f5f5f5;
-  --muted:#9ca3af;
-  --border:#1f2937;
 }
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:Inter,Arial,sans-serif;
+  font-family:Inter,system-ui,Arial,sans-serif;
   background:radial-gradient(1200px 600px at top,#020617,#000);
   color:var(--text);
 }
-a{text-decoration:none;color:inherit}
 
 .container{
-  max-width:1200px;
+  max-width:1100px;
   margin:auto;
-  padding:24px;
+  padding:30px 20px;
 }
 
-/* HERO */
-.hero{
-  padding:70px 0 40px;
+/* HEADER */
+.header{
   text-align:center;
+  padding:40px 0 30px;
 }
-.badge{
-  display:inline-block;
-  padding:6px 14px;
-  font-size:12px;
-  border-radius:999px;
-  background:rgba(34,197,94,.12);
+.logo{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  font-size:22px;
+  font-weight:800;
+}
+.logo span{
   color:var(--accent);
-  margin-bottom:16px;
 }
-.hero h1{
-  font-size:34px;
-  line-height:1.2;
-  margin:0 0 14px;
-}
-.hero p{
-  font-size:16px;
+.subtitle{
+  margin-top:8px;
   color:var(--muted);
-  max-width:720px;
-  margin:0 auto;
+  font-size:14px;
 }
 
 /* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
-  margin-top:50px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:26px;
+  margin-top:40px;
 }
 
 /* CARD */
@@ -70,171 +67,110 @@ a{text-decoration:none;color:inherit}
   background:linear-gradient(180deg,#0b122b,#020617);
   border:1px solid var(--border);
   border-radius:22px;
-  padding:22px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 20px 50px rgba(0,0,0,.4);
-}
-.cover{
+  padding:18px;
   text-align:center;
-  margin-bottom:16px;
+  transition:all .25s ease;
 }
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 50px rgba(0,0,0,.45);
+  border-color:#22c55e55;
+}
+
+/* COVER */
+.cover{
+  width:100%;
+  aspect-ratio:1/1;
+  border-radius:16px;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+
 .cover img{
   width:100%;
-  max-width:220px;
-  height:auto;
-  border-radius:14px;
+  height:100%;
+  object-fit:cover;
 }
-.tag{
-  display:inline-block;
-  font-size:12px;
-  color:var(--accent);
-  margin-bottom:6px;
-}
+
+/* TITLE */
 .card h3{
-  margin:6px 0 8px;
-  font-size:20px;
+  font-size:15px;
+  font-weight:600;
+  margin:8px 0 2px;
 }
-.card p{
-  font-size:14px;
-  color:var(--muted);
-  line-height:1.6;
-}
+
 .price{
-  margin:16px 0;
-  font-size:22px;
+  font-size:14px;
   font-weight:800;
   color:var(--accent);
-}
-.btn{
-  display:block;
-  text-align:center;
-  padding:14px;
-  border-radius:14px;
-  background:linear-gradient(135deg,#22c55e,#16a34a);
-  color:#000;
-  font-weight:800;
-  font-size:15px;
 }
 
 /* FOOTER */
 .footer{
   margin-top:80px;
-  padding:36px 0;
+  padding:30px 0;
   border-top:1px solid var(--border);
   text-align:center;
   color:var(--muted);
   font-size:13px;
-}
-
-@media(max-width:600px){
-  .hero h1{font-size:26px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- HERO -->
-<div class="container hero">
-  <div class="badge">📚 MINI DIGITAL EBOOK</div>
-  <h1>Koleksi Ebook Ringkas<br>Untuk Belajar & Jana Income</h1>
-  <p>
-    Ebook mini, padat & praktikal.  
-    Fokus satu masalah → satu solusi.  
-    Tak panjang, tak pening, terus boleh guna.
-  </p>
+<div class="container header">
+  <div class="logo">
+    📚 <span>EbookKu</span>
+  </div>
+  <div class="subtitle">
+    Koleksi Mini Ebook Digital • Ringkas • Praktikal
+  </div>
 </div>
 
-<!-- EBOOK LIST -->
 <div class="container">
   <div class="grid">
 
     <!-- EBOOK 1 -->
-    <div class="card">
-      <div>
-        <div class="cover">
-          <img src="images/covers/income-zero.jpg" alt="Jana Income Online Dari Zero">
-        </div>
-        <span class="tag">🔥 Popular</span>
-        <h3>Jana Income Online Dari Zero</h3>
-        <p>
-          Panduan ringkas untuk beginner yang nak mula income online
-          tanpa modal besar dan tanpa teknikal rumit.
-        </p>
-        <div class="price">RM9</div>
+    <a href="https://toyyibpay.com/XXXXXX" class="card">
+      <div class="cover">
+        <img src="images/covers/kuasa-bisnes-online.jpg" alt="Kuasa Bisnes Online">
       </div>
-      <a href="https://toyyibpay.com/XXXXXXXX" class="btn">
-        Dapatkan Ebook
-      </a>
-    </div>
+      <h3>Kuasa Bisnes Online</h3>
+      <div class="price">RM9</div>
+    </a>
 
     <!-- EBOOK 2 -->
-    <div class="card">
-      <div>
-        <div class="cover">
-          <img src="images/covers/affiliate-biasa.jpg" alt="Affiliate Untuk Orang Biasa">
-        </div>
-        <span class="tag">🧠 Beginner</span>
-        <h3>Affiliate Untuk Orang Biasa</h3>
-        <p>
-          Faham konsep affiliate, cara pilih produk
-          dan kesilapan biasa yang buat orang tak buat sales.
-        </p>
-        <div class="price">RM9</div>
+    <a href="https://toyyibpay.com/YYYYYY" class="card">
+      <div class="cover">
+        <img src="images/covers/ebook-contoh-2.jpg" alt="Ebook Contoh 2">
       </div>
-      <a href="https://toyyibpay.com/YYYYYYYY" class="btn">
-        Dapatkan Ebook
-      </a>
-    </div>
+      <h3>Ebook Contoh 2</h3>
+      <div class="price">RM9</div>
+    </a>
 
     <!-- EBOOK 3 -->
-    <div class="card">
-      <div>
-        <div class="cover">
-          <img src="images/covers/phone-income.jpg" alt="Side Income Guna Telefon Je">
-        </div>
-        <span class="tag">📱 No Video</span>
-        <h3>Side Income Guna Telefon Je</h3>
-        <p>
-          Cara jana income hanya guna telefon
-          tanpa perlu buat video atau tunjuk muka.
-        </p>
-        <div class="price">RM9</div>
+    <a href="https://toyyibpay.com/ZZZZZZ" class="card">
+      <div class="cover">
+        <img src="images/covers/ebook-contoh-3.jpg" alt="Ebook Contoh 3">
       </div>
-      <a href="https://toyyibpay.com/ZZZZZZZZ" class="btn">
-        Dapatkan Ebook
-      </a>
-    </div>
+      <h3>Ebook Contoh 3</h3>
+      <div class="price">RM9</div>
+    </a>
 
     <!-- COMING SOON -->
-    <div class="card">
-      <div>
-        <div class="cover">
-          <img src="images/covers/coming-soon.jpg" alt="Akan Datang">
-        </div>
-        <span class="tag">⏳ Akan Datang</span>
-        <h3>Mini Ebook Seterusnya</h3>
-        <p>
-          Topik baru sedang disediakan.
-          Ebook akan ditambah dari masa ke masa.
-        </p>
-        <div class="price">Coming Soon</div>
+    <div class="card" style="opacity:.5">
+      <div class="cover">
+        <img src="images/covers/coming-soon.jpg" alt="Coming Soon">
       </div>
-      <a href="#" class="btn" style="opacity:.5;pointer-events:none">
-        Akan Datang
-      </a>
+      <h3>Akan Datang</h3>
+      <div class="price">Soon</div>
     </div>
 
   </div>
 </div>
 
-<!-- FOOTER -->
 <div class="container footer">
   © 2025 EbookKu • Mini Digital Ebook Store
 </div>
